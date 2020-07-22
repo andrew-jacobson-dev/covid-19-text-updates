@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% block page_content %}
+<br>
+<h1 style="color:#d93232;display:inline">COVID-19</h1><h1 style="display:inline"> Text Updates</h1>
+<hr>
+<br>
+<!--<h3 class="text-primary-custom">Let's Talk <i class="fas fa-envelope"></i></h3>-->
+<!--<br>-->
+<div class="row mb-3">
+    <div class="col-md-10">
+        <p>Sign up below to receive regular text updates on the COVID-19 pandemic for your county. Sign up below to receive regular text updates on the COVID-19 pandemic for your county.</p>
+    </div>
+    <div class="col-md-2">
+        <i class="fas fa-flag-usa fa-7x" style="color: #007bff;"></i>
+    </div>
+</div>
+<br>
+<div class="row mb-3">
+    <div class="col-md-6">
+        <h3 class="text-primary-custom">About <i class="fas fa-question-circle" style="color:#d93232;"></i></h3>
+        <hr>
+        <p>
+            Coronavirus cases continue to grow in America. From cities to rural towns, stay informed on where COVID-19 is spreading to understand how it could affect families,commerce, and travel. Follow new cases found each day and the total number of cases and deaths in the US.
+        </p>
+        <p>Visit <a href="https://usafacts.org/visualizations/coronavirus-covid-19-spread-map/">USAFacts </a> for more information. They automatically pull information from the individual state websites and perform some manual data collection as well. They update their numbers daily.</p>
+    </div>
+    <div class="col-md-6">
+        <h3 class="text-primary-custom">Sign Up <i class="fa fa-mobile" style="color:#d93232;"></i></h3>
+        <hr>
+        <form action="{% url 'text_signup_index' %}" method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                {{ textsignup_form.email_address }}
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-2">
+                    {{ textsignup_form.phone_area_code }}
+                </div>
+                <div class="col-sm-2">
+                    {{ textsignup_form.phone_local_code }}
+                </div>
+                <div class="col-sm-3">
+                    {{ textsignup_form.phone_line_code }}
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col">
+                    {{ textsignup_form.state }}
+                </div>
+                <div class="col">
+                    {{ textsignup_form.county }}
+                </div>
+            </div>
+            <div class="form-group">
+                {{ textsignup_form.frequency }}
+            </div>
+            <div class="form-group">
+                {{ textsignup_form.consent }} I agree to the <a href=#>terms and conditions</a>
+            </div>
+            <p class="text-muted font-italic"><small>By enrolling in this texting program, you are authorizing this website to send you text messages at your desired interval. Text message charges from your cell phone carrier may apply.</small></p>
+            <button type="submit" class="btn btn-primary mt-3">Submit</button>
+        </form>
+        <br>
+        <p class="text-info">
+            {% if messages %}
+                {% for message in messages %}
+                    {{ message }}
+                {% endfor %}
+            {% endif %}
+        </p>
+    </div>
+</div>
+{% endblock %}
