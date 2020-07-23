@@ -12,11 +12,21 @@ class TextSignupForm(forms.Form):
         })
     )
 
+    phone_country_code = forms.CharField(
+        max_length=4,
+        widget=forms.TextInput(attrs={
+            "class": "form-control",
+            "placeholder": "+1",
+            "required": False,
+            "disabled": True
+        })
+    )
+
     phone_area_code = forms.CharField(
         max_length=3,
         widget=forms.TextInput(attrs={
             "class": "form-control",
-            "placeholder": "XXX"
+            "placeholder": "111"
         })
     )
 
@@ -24,7 +34,7 @@ class TextSignupForm(forms.Form):
         max_length=3,
         widget=forms.TextInput(attrs={
             "class": "form-control",
-            "placeholder": "XXX"
+            "placeholder": "111"
         })
     )
 
@@ -32,7 +42,7 @@ class TextSignupForm(forms.Form):
         max_length=4,
         widget=forms.TextInput(attrs={
             "class": "form-control",
-            "placeholder": "XXXX"
+            "placeholder": "1111"
         })
     )
 

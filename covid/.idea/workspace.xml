@@ -3,9 +3,11 @@
   <component name="ChangeListManager">
     <list default="true" id="cea30236-59b1-4e16-9b0c-6395261344b1" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data_pull/management/commands/fetch_csv.py" beforeDir="false" afterPath="$PROJECT_DIR$/data_pull/management/commands/fetch_csv.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data_pull/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/data_pull/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data_pull/management/commands/summarize_data.py" beforeDir="false" afterPath="$PROJECT_DIR$/data_pull/management/commands/summarize_data.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/send_text/management/commands/send_text.py" beforeDir="false" afterPath="$PROJECT_DIR$/send_text/management/commands/send_text.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/text_signup/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/text_signup/forms.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/text_signup/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/text_signup/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/text_signup/templates/text_signup.html" beforeDir="false" afterPath="$PROJECT_DIR$/text_signup/templates/text_signup.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

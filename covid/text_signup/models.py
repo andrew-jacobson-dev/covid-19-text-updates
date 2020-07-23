@@ -30,6 +30,7 @@ class Frequency(models.Model):
 
 class Recipient(models.Model):
     t_email_address = models.CharField(max_length=256, unique=True)
+    t_phone_country_code = models.CharField(max_length=4, help_text="Leading + sign, followed by the country code for the number")
     t_phone_area_code = models.CharField(max_length=3, help_text="Area code or first 3 digits of phone number")
     t_phone_local_code = models.CharField(max_length=3, help_text="Local code or second 3 digits of phone number")
     t_phone_line_code = models.CharField(max_length=4, help_text="Line code or last 4 digits of phone number")
