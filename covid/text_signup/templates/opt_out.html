@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+{% block page_content %}
+<div class="row mb-3">
+    <div class="col-md-3">
+
+    </div>
+    <div class="col-md-6">
+        <h3 class="text-primary-custom">Opt Out <i class="fas fa-bell-slash" style="color:#d93232;"></i></h3>
+        <hr>
+        <form action="{% url 'opt_out_index' %}" method="post">
+            {% csrf_token %}
+            <h5>Step 1: Fill in your email address and phone number used to sign up.</h5>
+            <br>
+            <div class="form-group row">
+                <div class="col">
+                    {{ opt_out_step_1_form.email_address }}
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-2">
+                    {{ opt_out_step_1_form.phone_country_code }}
+                </div>
+                <div class="col-sm-2">
+                   {{ opt_out_step_1_form.phone_area_code }}
+                </div>
+                <div class="col-sm-2">
+                    {{ opt_out_step_1_form.phone_local_code }}
+                </div>
+                <div class="col-sm-3">
+                    {{ opt_out_step_1_form.phone_line_code }}
+                </div>
+            </div>
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary mt-3" name="send_code">Send Code</button>
+            </div>
+        </form>
+        <br>
+        <p class="text-info">
+            {% if messages %}
+                {% for message in messages %}
+                    {% if 'send_code' in message.tags %}
+                        {{ message }}
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+        </p>
+        <hr>
+        <form action="{% url 'opt_out_index' %}" method="post">
+            {% csrf_token %}
+            <h5>Step 2: Enter the code sent to your email address.</h5>
+            <br>
+            <div class="form-group row">
+                <div class="col">
+                    {{ opt_out_step_2_form.opt_out_code }}
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col">
+                    {{ opt_out_step_2_form.confirm }} I understand that I will be removed from the program
+                </div>
+            </div>
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary mt-3" name="opt_out">Opt Out</button>
+            </div>
+        </form>
+        <br>
+        <p class="text-info">
+            {% if messages %}
+                {% for message in messages %}
+                    {% if 'opt_out' in message.tags %}
+                        {{ message }}
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+        </p>
+        <br>
+
+    </div>
+    <div class="col-md-3">
+
+    </div>
+</div>
+<div class="row mb-3">
+    <div class="col-md-12">
+        <div class="text-center">
+            <a href="{% url 'text_signup_index' %}" class="btn btn-outline-primary pl-5 pr-5" role="button" >Back</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

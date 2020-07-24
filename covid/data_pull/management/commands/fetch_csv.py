@@ -16,9 +16,9 @@ class Command(BaseCommand):
         deaths_url = 'https://usafactsstatic.blob.core.windows.net/public/data/covid-19/covid_deaths_usafacts.csv'
 
         # Calculate yesterday's date since it is the name of the column we want to pull
-        previous_date_csv = str((datetime.now() - timedelta(1)).strftime('%#m/%#d/%#y'))
+        previous_date_csv = str((datetime.now() - timedelta(2)).strftime('%#m/%#d/%#y'))
         # Calculate yesterday's date in the correct format for the database column
-        previous_date_db = str((datetime.now() - timedelta(1)).strftime('%Y-%m-%d'))
+        previous_date_db = str((datetime.now() - timedelta(2)).strftime('%Y-%m-%d'))
 
         # Define list of columns to pull from CSV
         column_names = ['County Name', 'State', previous_date_csv]

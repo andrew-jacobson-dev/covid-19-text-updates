@@ -1,17 +1,15 @@
 {% extends "base.html" %}
 {% block page_content %}
-<br>
-<h1 style="color:#d93232;display:inline">COVID-19</h1><h1 style="display:inline"> Text Updates</h1>
-<hr>
-<br>
-<!--<h3 class="text-primary-custom">Let's Talk <i class="fas fa-envelope"></i></h3>-->
-<!--<br>-->
+{% load static %}
+
 <div class="row mb-3">
-    <div class="col-md-10">
-        <p>Sign up below to receive regular text updates on the COVID-19 pandemic for your county. Sign up below to receive regular text updates on the COVID-19 pandemic for your county.</p>
-    </div>
     <div class="col-md-2">
-        <i class="fas fa-flag-usa fa-7x" style="color: #007bff;"></i>
+        <i class="fas fa-head-side-mask fa-7x" style="color: #007bff;"></i>
+    </div>
+    <div class="col-md-10">
+        <h5>Sign up below to receive regular text updates regarding known cases and deaths for the COVID-19 pandemic in your county.</h5>
+        <br>
+        <p>Tired of receiving texts? Click <a href="{% url 'opt_out_index' %}">here</a> to opt out.</p>
     </div>
 </div>
 <br>
@@ -20,9 +18,15 @@
         <h3 class="text-primary-custom">About <i class="fas fa-question-circle" style="color:#d93232;"></i></h3>
         <hr>
         <p>
-            Coronavirus cases continue to grow in America. From cities to rural towns, stay informed on where COVID-19 is spreading to understand how it could affect families,commerce, and travel. Follow new cases found each day and the total number of cases and deaths in the US.
+            In these unprecedented times, COVID-19 cases continue to grow in America. From cities to rural towns, stay
+            informed on where COVID-19 is spreading to understand how it could affect families, commerce, and travel.
+            Follow new cases found each day and the total number of cases and deaths in the US.
         </p>
-        <p>Visit <a href="https://usafacts.org/visualizations/coronavirus-covid-19-spread-map/">USAFacts </a> for more information. They automatically pull information from the individual state websites and perform some manual data collection as well. They update their numbers daily.</p>
+        <p>
+            The data is retrieved from <a href="https://usafacts.org/visualizations/coronavirus-covid-19-spread-map/">USAFacts </a>.
+            Check out their site for more information. They pull information daily from individual state websites and perform some manual
+            data collection as well.
+        </p>
     </div>
     <div class="col-md-6">
         <h3 class="text-primary-custom">Sign Up <i class="fa fa-mobile" style="color:#d93232;"></i></h3>
@@ -61,13 +65,16 @@
                     {{ textsignup_form.frequency }}
                 </div>
             </div>
-            <div class="form-group">
+            <br>
+            <div class="form-group row">
                 <div class="col">
-                    {{ textsignup_form.consent }} I agree to the <a href=#>terms and conditions</a>
+                    {{ textsignup_form.consent }} &nbsp I agree to the <a href=#>terms and conditions</a>
                 </div>
             </div>
             <p class="text-muted font-italic"><small>By enrolling in this texting program, you are authorizing this website to send you text messages at your desired interval. Text message charges from your cell phone carrier may apply.</small></p>
-            <button type="submit" class="btn btn-primary mt-3">Submit</button>
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary mt-3 pl-5 pr-5">Submit</button>
+            </div>
         </form>
         <br>
         <p class="text-info">
@@ -79,4 +86,25 @@
         </p>
     </div>
 </div>
+<div class="row mb-3">
+    <div class="col">
+        <h3 class="text-primary-custom">Additional Information <i class="fas fa-info-circle" style="color:#d93232;"></i></h3>
+        <hr>
+    </div>
+</div>
+<div class="row mb-3">
+    <div class="col md-6">
+        <div class="list-group">
+            <a class="list-group-item list-group-item-action" href="https://www.cdc.gov/coronavirus/2019-ncov/">CDC - Coronavirus (COVID-19)</a>
+            <a class="list-group-item list-group-item-action" href="https://www.cdc.gov/coronavirus/2019-ncov/cases-updates/county-map.html">CDC - Cases & Deaths by County</a>
+        </div>
+    </div>
+    <div class="col md-6">
+        <div class="list-group">
+            <a class="list-group-item list-group-item-action" href="https://www.who.int/emergencies/diseases/novel-coronavirus-2019/advice-for-public/myth-busters">WHO - Mythbusters</a>
+            <a class="list-group-item list-group-item-action" href="https://www.who.int/emergencies/diseases/novel-coronavirus-2019/advice-for-public/when-and-how-to-use-masks">WHO - Masks</a>
+        </div>
+    </div>
+</div>
+<br>
 {% endblock %}

@@ -1,5 +1,5 @@
 from django import forms
-from text_signup.models import State, County, Frequency, RecipientSelection
+from text_signup.models import State, County, Frequency
 
 
 class TextSignupForm(forms.Form):
@@ -8,17 +8,17 @@ class TextSignupForm(forms.Form):
         max_length=256,
         widget=forms.TextInput(attrs={
             "class": "form-control",
-            "placeholder": "Your email address"
+            "placeholder": "Email address"
         })
     )
 
     phone_country_code = forms.CharField(
         max_length=4,
+        required=False,
+        disabled=True,
         widget=forms.TextInput(attrs={
             "class": "form-control",
-            "placeholder": "+1",
-            "required": False,
-            "disabled": True
+            "placeholder": "+1"
         })
     )
 
@@ -64,11 +64,68 @@ class TextSignupForm(forms.Form):
 
     frequency = forms.ModelChoiceField(
         queryset=Frequency.objects.order_by('n_order'),
-        empty_label="Select your desired text frequency",
+        empty_label="Select desired text frequency",
         widget=forms.Select(attrs={
-            # "class": "form-check form-check-inline"
             "class": "form-control"
         })
     )
 
     consent = forms.BooleanField()
+
+
+class OptOutStep1Form(forms.Form):
+
+    email_address = forms.CharField(
+        max_length=256,
+        widget=forms.TextInput(attrs={
+            "class": "form-control",
+            "placeholder": "Email address"
+        })
+    )
+
+    phone_country_code = forms.CharField(
+        max_length=4,
+        required=False,
+        disabled=True,
+        widget=forms.TextInput(attrs={
+            "class": "form-control",
+            "placeholder": "+1"
+        })
+    )
+
+    phone_area_code = forms.CharField(
+        max_length=3,
+        widget=forms.TextInput(attrs={
+            "class": "form-control",
+            "placeholder": "111"
+        })
+    )
+
+    phone_local_code = forms.CharField(
+        max_length=3,
+        widget=forms.TextInput(attrs={
+            "class": "form-control",
+            "placeholder": "111"
+        })
+    )
+
+    phone_line_code = forms.CharField(
+        max_length=4,
+        widget=forms.TextInput(attrs={
+            "class": "form-control",
+            "placeholder": "1111"
+        })
+    )
+
+
+class OptOutStep2Form(forms.Form):
+
+    opt_out_code = forms.CharField(
+        max_length=8,
+        widget=forms.TextInput(attrs={
+            "class": "form-control",
+            "placeholder": "Code"
+        })
+    )
+
+    confirm = forms.BooleanField()

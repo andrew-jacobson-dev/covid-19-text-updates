@@ -2,12 +2,18 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="cea30236-59b1-4e16-9b0c-6395261344b1" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/text_signup/templates/opt_out.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/covid/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/covid/settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/covid/templates/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/covid/templates/base.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data_pull/management/commands/fetch_csv.py" beforeDir="false" afterPath="$PROJECT_DIR$/data_pull/management/commands/fetch_csv.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data_pull/management/commands/summarize_data.py" beforeDir="false" afterPath="$PROJECT_DIR$/data_pull/management/commands/summarize_data.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/send_text/management/commands/send_text.py" beforeDir="false" afterPath="$PROJECT_DIR$/send_text/management/commands/send_text.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/text_signup/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/text_signup/forms.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/text_signup/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/text_signup/models.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/text_signup/templates/text_signup.html" beforeDir="false" afterPath="$PROJECT_DIR$/text_signup/templates/text_signup.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/text_signup/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/text_signup/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/text_signup/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/text_signup/views.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -17,8 +23,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="HTML File" />
         <option value="Python Script" />
+        <option value="HTML File" />
       </list>
     </option>
   </component>
@@ -41,10 +47,11 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\PythonProjects\COVID\covid\text_signup\static" />
+      <recent name="C:\PythonProjects\COVID\covid\static" />
+      <recent name="C:\PythonProjects\COVID\covid\static\img" />
       <recent name="C:\PythonProjects\COVID\covid\data_pull\management\commands" />
       <recent name="C:\PythonProjects\COVID\covid\data_pull\fetch_csv" />
-      <recent name="C:\PythonProjects\COVID\covid\data_pull" />
-      <recent name="C:\PythonProjects\COVID\covid\text_signup" />
     </key>
   </component>
   <component name="RunManager">

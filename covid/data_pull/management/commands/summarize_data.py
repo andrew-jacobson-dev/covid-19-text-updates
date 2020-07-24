@@ -112,7 +112,7 @@ class Command(BaseCommand):
             self.stdout.write(self.style.SUCCESS('Inserted %s %s known cases summary rows' % (summary_inserts, option.lower())))
 
             ###################################################
-            # Update deaths data on the same table
+            # Update death data on SummaryByCountyFrequency
             ###################################################
 
             summary_row_updates = 0
