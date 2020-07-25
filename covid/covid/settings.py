@@ -128,3 +128,12 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+# Email configurations
+
+EMAIL_BACKEND = os.environ.get('django_covid_EMAIL_BACKEND')
+EMAIL_HOST = os.environ.get('django_covid_EMAIL_HOST')
+EMAIL_USE_TLS = os.environ.get('django_covid_EMAIL_USE_TLS')
+EMAIL_PORT = os.environ.get('django_covid_EMAIL_PORT')
+EMAIL_HOST_USER = os.environ.get('django_covid_EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.environ.get('django_covid_EMAIL_HOST_PASSWORD')

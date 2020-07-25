@@ -73,7 +73,7 @@ class Command(BaseCommand):
             for recipient in recipients:
 
                 # Create the TO number from recipient data
-                # to_number = recipient.n_recipient.t_phone_country_code + recipient.n_recipient.t_phone_area_code + recipient.n_recipient.t_phone_local_code + recipient.n_recipient.t_phone_line_code
+                to_number = recipient.n_recipient.t_phone_country_code + recipient.n_recipient.t_phone_area_code + recipient.n_recipient.t_phone_local_code + recipient.n_recipient.t_phone_line_code
 
                 # Lookup the recipient's county data in the previously created dictionary
                 county_summary_data = distinct_counties_dict.get(recipient.n_county)
@@ -91,14 +91,15 @@ class Command(BaseCommand):
                     county_summary_data.q_total_deaths)
 
                 # Create Client object
-                client = Client(account_sid, auth_token)
+                # client = Client(account_sid, auth_token)
 
-                # # Create and send message
-                client.api.account.messages.create(
-                    to=to_number,
-                    from_=from_number,
-                    body=text_message_body
-                )
+                # Create and send message
+                # client.api.account.messages.create(
+                #     to=to_number,
+                #     from_=from_number,
+                #     body=text_message_body
+                # )
+                print(text_message_body)
 
                 text_messages_sent += 1
 

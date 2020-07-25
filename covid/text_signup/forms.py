@@ -18,7 +18,8 @@ class TextSignupForm(forms.Form):
         disabled=True,
         widget=forms.TextInput(attrs={
             "class": "form-control",
-            "placeholder": "+1"
+            "placeholder": "+1",
+            "initial": "+1"
         })
     )
 
@@ -64,7 +65,7 @@ class TextSignupForm(forms.Form):
 
     frequency = forms.ModelChoiceField(
         queryset=Frequency.objects.order_by('n_order'),
-        empty_label="Select desired text frequency",
+        empty_label="Select text frequency",
         widget=forms.Select(attrs={
             "class": "form-control"
         })
