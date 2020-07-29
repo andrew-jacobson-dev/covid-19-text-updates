@@ -1,7 +1,6 @@
 {% extends "base.html" %}
 {% block page_content %}
 {% load static %}
-
 <div class="row mb-3">
     <div class="col-md-2">
         <i class="fas fa-head-side-mask fa-7x" style="color: #007bff;"></i>
@@ -15,7 +14,7 @@
 <br>
 <div class="row mb-3">
     <div class="col-md-6">
-        <h3 class="text-primary-custom">About <i class="fas fa-question-circle" style="color:#d93232;"></i></h3>
+        <h3>About <i class="fas fa-question-circle" style="color:#d93232;"></i></h3>
         <hr>
         <p>
             In these unprecedented times, COVID-19 cases continue to grow in America. From cities to rural towns, stay
@@ -23,16 +22,26 @@
             Follow new cases found each day and the total number of cases and deaths in the US.
         </p>
         <p>
-            The data is retrieved from <a href="https://usafacts.org/visualizations/coronavirus-covid-19-spread-map/">USAFacts </a>.
+            The data is retrieved from <a href="https://usafacts.org/visualizations/coronavirus-covid-19-spread-map/">USAFacts</a>.
             Check out their site for more information. They pull information daily from individual state websites and perform some manual
             data collection as well.
         </p>
+        <p>
+            <h5>How it works:</h5>
+            <ul>
+                <li>Fill out the form under 'Sign Up'</li>
+                <li>Check your email for confirmation of your enrollment</li>
+                <li>Receive text messages at your scheduled interval</li>
+                <li>Optional: Stop receiving texts by clicking the link at the top of the page</li>
+            </ul>
+        </p>
     </div>
     <div class="col-md-6">
-        <h3 class="text-primary-custom">Sign Up <i class="fa fa-mobile" style="color:#d93232;"></i></h3>
+        <h3>Sign Up <i class="fas fa-bell" style="color:#d93232;"></i></h3>
         <hr>
         <form action="{% url 'text_signup_index' %}" method="post">
             {% csrf_token %}
+            {{ textsignup_form_2.media.js }}
             <div class="form-group row">
                 <div class="col">
                     {{ textsignup_form.email_address }}
@@ -54,10 +63,10 @@
             </div>
             <div class="form-group row">
                 <div class="col">
-                    {{ textsignup_form.state }}
+                    {{ textsignup_form_2.n_state }}
                 </div>
                 <div class="col">
-                    {{ textsignup_form.county }}
+                    {{ textsignup_form_2.n_county }}
                 </div>
             </div>
             <div class="form-group row">
@@ -67,15 +76,42 @@
             </div>
             <br>
             <div class="form-group row">
-                <div class="col">
-                    {{ textsignup_form.consent }} &nbsp I agree to the <a href=#>terms and conditions</a>
+                <div class="col text-center text-muted font-italic">
+                    {{ textsignup_form.consent }} &nbsp I agree to the <a href=#myModal data-toggle="modal">terms and conditions</a>
                 </div>
             </div>
-            <p class="text-muted font-italic"><small>By enrolling in this texting program, you are authorizing this website to send you text messages at your desired interval. Text message charges from your cell phone carrier may apply.</small></p>
             <div class="text-center">
                 <button type="submit" class="btn btn-primary mt-3 pl-5 pr-5">Submit</button>
             </div>
         </form>
+        <div id="myModal" class="modal fade" role="dialog">
+          <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+              <div class="modal-header">
+                  <h4 class="modal-title">Terms and Conditions</h4>
+                  <button type="button" class="close" data-dismiss="modal">&times;</button>
+              </div>
+              <div class="modal-body">
+                <p>
+                    Please read these SMS/Text Messaging Terms & Conditions carefully.
+                </p>
+                <p>
+                    By completing the SMS/text messaging Sign Up form, you expressly consent to receive text messages from
+                    COVID-19 Text Updates at the mobile phone number you provide. You may opt-out of these communications at any time by
+                    visiting covid19textupdates.com/optout.
+                </p>
+                <p>
+                    Messaging and data rates may apply. By completing the SMS text Messaging Sign Up form, you also accept and agree to be
+                    bound by these SMS text messaging terms and conditions.
+                </p>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
         <br>
         <p class="text-primary font-weight-bold text-center">
             {% if messages %}
@@ -88,21 +124,23 @@
 </div>
 <div class="row mb-3">
     <div class="col">
-        <h3 class="text-primary-custom">Additional Information <i class="fas fa-info-circle" style="color:#d93232;"></i></h3>
+        <h3>Additional Information <i class="fas fa-info-circle" style="color:#d93232;"></i></h3>
         <hr>
     </div>
 </div>
 <div class="row mb-3">
     <div class="col md-6">
+        <h5>Center for Disease Control (CDC)</h5>
         <div class="list-group">
-            <a class="list-group-item list-group-item-action" href="https://www.cdc.gov/coronavirus/2019-ncov/">CDC - Coronavirus (COVID-19)</a>
-            <a class="list-group-item list-group-item-action" href="https://www.cdc.gov/coronavirus/2019-ncov/cases-updates/county-map.html">CDC - Cases & Deaths by County</a>
+            <a class="list-group-item list-group-item-action text-primary" href="https://www.cdc.gov/coronavirus/2019-ncov/">Coronavirus (COVID-19)</a>
+            <a class="list-group-item list-group-item-action text-primary" href="https://www.cdc.gov/coronavirus/2019-ncov/cases-updates/county-map.html">Cases & Deaths by County</a>
         </div>
     </div>
     <div class="col md-6">
+        <h5>World Health Organization (WHO)</h5>
         <div class="list-group">
-            <a class="list-group-item list-group-item-action" href="https://www.who.int/emergencies/diseases/novel-coronavirus-2019/advice-for-public/myth-busters">WHO - Mythbusters</a>
-            <a class="list-group-item list-group-item-action" href="https://www.who.int/emergencies/diseases/novel-coronavirus-2019/advice-for-public/when-and-how-to-use-masks">WHO - Masks</a>
+            <a class="list-group-item list-group-item-action text-primary" href="https://www.who.int/emergencies/diseases/novel-coronavirus-2019/advice-for-public/myth-busters">Mythbusters</a>
+            <a class="list-group-item list-group-item-action text-primary" href="https://www.who.int/emergencies/diseases/novel-coronavirus-2019/advice-for-public/when-and-how-to-use-masks">Masks</a>
         </div>
     </div>
 </div>
