@@ -1,12 +1,14 @@
 from django import forms
-from text_signup.models import State, County, Frequency
+from text_signup.models import State, County, Frequency, Location, Recipient
+from smart_selects.form_fields import ChainedModelChoiceField
+from django.forms import Select
 
 
 class TextSignupForm(forms.Form):
 
-    email_address = forms.CharField(
-        max_length=256,
-        widget=forms.TextInput(attrs={
+    email_address = forms.EmailField(
+        max_length=254,
+        widget=forms.EmailInput(attrs={
             "class": "form-control",
             "placeholder": "Email address"
         })
@@ -47,22 +49,6 @@ class TextSignupForm(forms.Form):
         })
     )
 
-    state = forms.ModelChoiceField(
-        queryset=State.objects.order_by('t_state'),
-        empty_label="Select a state",
-        widget=forms.Select(attrs={
-            "class": "form-control"
-        })
-    )
-
-    county = forms.ModelChoiceField(
-        queryset=County.objects.order_by('t_county'),
-        empty_label="Select a county",
-        widget=forms.Select(attrs={
-            "class": "form-control"
-        })
-    )
-
     frequency = forms.ModelChoiceField(
         queryset=Frequency.objects.order_by('n_order'),
         empty_label="Select text frequency",
@@ -74,11 +60,25 @@ class TextSignupForm(forms.Form):
     consent = forms.BooleanField()
 
 
+class LocationForm(forms.ModelForm):
+
+    class Meta:
+        model = Location
+        fields = ['n_state', 'n_county']
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field in iter(self.fields):
+            self.fields[field].widget.attrs.update({
+                'class': 'form-control',
+            })
+
+
 class OptOutStep1Form(forms.Form):
 
-    email_address = forms.CharField(
-        max_length=256,
-        widget=forms.TextInput(attrs={
+    email_address = forms.EmailField(
+        max_length=254,
+        widget=forms.EmailInput(attrs={
             "class": "form-control",
             "placeholder": "Email address"
         })

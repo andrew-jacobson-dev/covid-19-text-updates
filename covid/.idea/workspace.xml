@@ -2,10 +2,17 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="cea30236-59b1-4e16-9b0c-6395261344b1" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/text_signup/methods/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/text_signup/methods/text_signup_methods.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/text_signup/templates/text_signup_2.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Tasks/summarize_data_biweekly.bat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Tasks/summarize_data_daily.bat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Tasks/summarize_data_monthly.bat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Tasks/summarize_data_weekly.bat" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/covid/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/covid/settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/covid/templates/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/covid/templates/base.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data_pull/management/commands/fetch_csv.py" beforeDir="false" afterPath="$PROJECT_DIR$/data_pull/management/commands/fetch_csv.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data_pull/management/commands/summarize_data.py" beforeDir="false" afterPath="$PROJECT_DIR$/data_pull/management/commands/summarize_data.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data_pull/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/data_pull/models.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/send_text/management/commands/send_text.py" beforeDir="false" afterPath="$PROJECT_DIR$/send_text/management/commands/send_text.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/text_signup/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/text_signup/forms.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/text_signup/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/text_signup/models.py" afterDir="false" />
