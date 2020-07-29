@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
-from text_signup.forms import TextSignupForm, OptOutStep1Form, OptOutStep2Form
+from text_signup.forms import TextSignupForm, OptOutStep1Form, OptOutStep2Form, LocationForm
 from django.core.mail import send_mail
 from smtplib import SMTPException
 from django.conf import settings
@@ -8,27 +8,30 @@ from django.contrib import messages
 from text_signup.models import Recipient, RecipientSelection, County, Frequency
 from django.db import IntegrityError
 from text_signup.methods.text_signup_methods import generate_opt_out_code
+from django.core.exceptions import ValidationError
+from django.core.validators import validate_email
 
 
-# Create your views here.
 def text_signup_index(request):
 
     # Create empty form
     textsignup_form = TextSignupForm()
+    textsignup_form_2 = LocationForm()
 
     if request.method == 'POST':
 
         textsignup_form = TextSignupForm(request.POST)
+        textsignup_form_2 = LocationForm(request.POST)
 
-        if textsignup_form.is_valid():
+        if textsignup_form.is_valid() and textsignup_form_2.is_valid():
 
             email = textsignup_form.cleaned_data['email_address']
             phone_country_code = "+1"
             phone_area_code = textsignup_form.cleaned_data['phone_area_code']
             phone_local_code = textsignup_form.cleaned_data['phone_local_code']
             phone_line_code = textsignup_form.cleaned_data['phone_line_code']
-            state = textsignup_form.cleaned_data['state']
-            county = textsignup_form.cleaned_data['county']
+            state = textsignup_form_2.cleaned_data['n_state']
+            county = textsignup_form_2.cleaned_data['n_county']
             frequency = textsignup_form.cleaned_data['frequency']
             consent = textsignup_form.cleaned_data['consent']
 
@@ -73,7 +76,7 @@ def text_signup_index(request):
                 # If that completed, then we can say that everything was successful
                 # so send an email
                 message_subject = "Welcome to the COVID-19 Text Updates Program"
-                message_content = "Thank you for subscribing to the COVID-19 Text Updates Program. \n\nYou will begin receiving {} updates for {}, {}. \n\nChanged your mind? Visit covid19textupdates.com/optout to opt out of the program.".format(str(frequency).lower(), county, state)
+                message_content = "Thank you for subscribing to the COVID-19 Text Updates Program. \n\nYou will begin receiving {} updates for {} in {}. \n\nChanged your mind? Visit covid19textupdates.com/optout to opt out of the program.".format(str(frequency).lower(), county, state)
 
                 try:
                     # Send email using send_mail function
@@ -84,15 +87,17 @@ def text_signup_index(request):
                               fail_silently=False)
 
                     # Success message
-                    messages.success(request, 'A welcome email was to sent you.')
+                    messages.success(request, 'A welcome email was just to sent you.')
                 except SMTPException as e:
                     # Here is where we should send a message to the admin saying the email failed
                     # and it needs to be sent
-                    print(e)
-                    print('Email failure:', email, message_subject, message_content)
-
-            except IntegrityError:
-                messages.error(request, 'Email address has already been registered!')
+                    # print('Email failure:', email, message_subject, message_content)
+                    messages.error(request, 'There was a problem sending your welcome email, but we did receive your registration and you will start receiving texts at your selected interval.')
+            except IntegrityError as e:
+                if 'phone' in str(e):
+                    messages.error(request, 'Phone number has already been registered!')
+                if 'email' in str(e):
+                    messages.error(request, 'Email address has already been registered!')
 
             finally:
 
@@ -101,6 +106,7 @@ def text_signup_index(request):
     # Create context
     context = {
         'textsignup_form': textsignup_form,
+        'textsignup_form_2': textsignup_form_2,
     }
 
     # Return request with context
