@@ -1,7 +1,7 @@
 from django.core.management.base import BaseCommand, CommandError
 import pandas as panda
 from datetime import datetime, timedelta
-from data_pull.models import DailyCountyKnownCases, DailyCountyDeaths, SummaryByCountyFrequency, SummaryByStateFrequency
+from data_pull.models import DailyCountyKnownCases, DailyCountyDeaths, SummaryByCountyFrequency
 from django.db.models import Window, Subquery, Q, Value, IntegerField
 from django.db.models.functions import Lag
 from text_signup.models import Frequency
@@ -9,26 +9,28 @@ from text_signup.models import Frequency
 
 class Command(BaseCommand):
 
-    help = 'Extracts data from transactional tables and fills the summary tables'
+    help = 'Extracts data from transactional tables and fills the summary tables for a specified frequency'
 
+    # This function adds all of the values from the Frequency table as arguments for the command
     def add_arguments(self, parser):
 
         parser.add_argument('frequency', nargs='+')
 
         # Retrieve list of possible frequencies (Daily, Weekly, etc.)
-        Frequencies = Frequency.objects.all()
+        frequencies = Frequency.objects.all()
 
         # Iterate through frequencies and add them as possible arguments
-        for frequency in Frequencies:
+        for frequency in frequencies:
             argument = '--' + frequency.t_frequency
             parser.add_argument(
                 argument,
                 action='store_true',
                 dest='frequency',
-                help=argument + ' frequency',
+                help="Enter " + "'" + frequency.t_frequency + "'" + " to summarize " + frequency.t_frequency + " data",
                 default=False,
             )
 
+    # This function is the primary handler for the command
     def handle(self, *args, **options):
 
         # Retrieve option from command
@@ -36,20 +38,18 @@ class Command(BaseCommand):
         option = option[0]
 
         # See if option is valid
-        frequency_lookup = Frequency.objects.get(t_frequency=option)
+        try:
+            frequency_lookup = Frequency.objects.get(t_frequency=option)
 
-        # If the frequency was found, continue on
-        if frequency_lookup:
-
-            # Define variable to keep track of number of inserts
-            summary_inserts = 0
+            # Empty the Summary table for the specified frequency
+            SummaryByCountyFrequency.objects.filter(n_frequency=frequency_lookup).delete()
 
             # Will always look at yesterday's date for retrieving information
-            end_date = datetime.now().date() - timedelta(2)
+            end_date = datetime.now().date() - timedelta(1)
 
             # Calculate how far back to pull data for based on the command option
             if option == 'Daily':
-                start_date = datetime.now().date() - timedelta(3)
+                start_date = datetime.now().date() - timedelta(2)
 
             if option == 'Bi-Weekly':
                 day_of_week = datetime.now().weekday()
@@ -63,7 +63,7 @@ class Command(BaseCommand):
                     start_date = datetime.now().date() - timedelta(4)
 
             if option == 'Weekly':
-                start_date = datetime.now().date() - timedelta(7)
+                start_date = datetime.now().date() - timedelta(8)
 
             if option == 'Monthly':
                 day_of_month = datetime.now().date().day
@@ -76,6 +76,9 @@ class Command(BaseCommand):
                     expression=Lag('q_cases', offset=1, default=0),
                     order_by=('n_county', 'd_date')),
             ).filter(Q(d_date=start_date) | Q(d_date=end_date))
+
+            # Define variable to keep track of number of inserts
+            summary_row_inserts = 0
 
             # Iterate through the results
             for known_case in known_cases:
@@ -107,9 +110,9 @@ class Command(BaseCommand):
                     summary_row_insert.save()
 
                     # Increment insert counter
-                    summary_inserts += 1
+                    summary_row_inserts += 1
 
-            self.stdout.write(self.style.SUCCESS('Inserted %s %s known cases summary rows' % (summary_inserts, option.lower())))
+            self.stdout.write(self.style.SUCCESS('Inserted %s %s known cases summary rows' % (summary_row_inserts, option.lower())))
 
             ###################################################
             # Update death data on SummaryByCountyFrequency
@@ -126,20 +129,27 @@ class Command(BaseCommand):
                 ),
             ).filter(Q(d_date=start_date) | Q(d_date=end_date))
 
+            # Iterate through the results
             for death in deaths:
 
+                # Only want to look at the row that corresponds to yesterday's date since it has the lag value we need
                 if death.d_date == end_date:
 
+                    # Create and fill variables for SummaryByCountyFrequency columns that we want to update
                     summary_q_deaths_change = death.q_deaths - death.q_deaths_lag
                     summary_q_total_deaths = death.q_deaths
 
+                    # Update values by county and frequency
                     SummaryByCountyFrequency.objects.filter(n_county=death.n_county, n_frequency=frequency_lookup).update(
                         q_deaths_change=summary_q_deaths_change,
                         q_total_deaths=summary_q_total_deaths
                     )
 
+                    # Increment updates counter
                     summary_row_updates += 1
 
             self.stdout.write(self.style.SUCCESS('Updated %s summary rows' % summary_row_updates))
-        else:
+
+        # If the specified option was not in the Frequency table
+        except:
             self.stdout.write(self.style.ERROR('Please try a different option. "%s" is invalid.' % option))

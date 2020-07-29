@@ -10,40 +10,43 @@ class Command(BaseCommand):
 
     help = 'Sends text messages to the registered recipients'
 
+    # This function adds all of the values from the Frequency table as arguments for the command
     def add_arguments(self, parser):
 
         parser.add_argument('frequency', nargs='+')
 
         # Retrieve list of possible frequencies (Daily, Weekly, etc.)
-        Frequencies = Frequency.objects.all()
+        frequencies = Frequency.objects.all()
 
         # Iterate through frequencies and add them as possible arguments
-        for frequency in Frequencies:
+        for frequency in frequencies:
             argument = '--' + frequency.t_frequency
             parser.add_argument(
                 argument,
                 action='store_true',
                 dest='frequency',
-                help=argument + ' frequency',
+                help="Enter " + "'" + frequency.t_frequency + "'" + " to send texts to " + frequency.t_frequency + " recipients",
                 default=False,
             )
 
+    # This function is the primary handler for the command
     def handle(self, *args, **options):
 
         # Retrieve option from command
         option = options.get('frequency')
         option = option[0]
 
-        # See if option is valid
-        frequency_lookup = Frequency.objects.get(t_frequency=option)
+        # Text messages counters
+        text_messages_sent = 0
+        text_messages_not_sent = 0
 
-        # If the frequency was found, continue on
-        if frequency_lookup:
+        try:
+            frequency_lookup = Frequency.objects.get(t_frequency=option)
 
-            # Retrieve recipients with the desired frequency
-            recipients = RecipientSelection.objects.select_related('n_recipient').select_related('n_county').filter(n_frequency=frequency_lookup)
+            # Retrieve recipients (along with the county and state table values) for the desired frequency
+            recipients = RecipientSelection.objects.select_related('n_recipient').select_related('n_county').select_related('n_county__n_state').filter(n_frequency=frequency_lookup)
 
-            # Retrieve rows from summary table
+            # Retrieve rows from summary table for the desired frequency
             summary_rows_by_frequency = SummaryByCountyFrequency.objects.filter(n_frequency=frequency_lookup)
 
             # Create empty dictionary to store all needed rows
@@ -66,9 +69,6 @@ class Command(BaseCommand):
             auth_token = os.environ.get('django_covid_twilio_AUTH_TOKEN')
             from_number = os.environ.get('django_covid_twilio_FROM_NUMBER')
 
-            # Text messages sent counter
-            text_messages_sent = 0
-
             # Iterate through recipient list and send text messages
             for recipient in recipients:
 
@@ -80,30 +80,36 @@ class Command(BaseCommand):
 
                 # Create the message content
                 text_message_body = \
-                    "Here is your {} COVID-19 text update for {}: \n \n{} new known cases since your last update. " \
+                    "Here is your {} COVID-19 text update for {} in {}: \n \n{} new known cases since your last update. " \
                     "{} total known cases. \n \n{} deaths since your last update. {} total deaths. \n \n" \
                     "Want to opt out of future texts? Visit www.covid19textupdates.com/optout".format(
                     option.lower(),
                     recipient.n_county.t_county,
+                    recipient.n_county.n_state.t_state,
                     county_summary_data.q_cases_change,
                     county_summary_data.q_total_cases,
                     county_summary_data.q_deaths_change,
                     county_summary_data.q_total_deaths)
 
-                # Create Client object
-                # client = Client(account_sid, auth_token)
+                try:
+                    # Create Client object
+                    client = Client(account_sid, auth_token)
+                    to_number = "+4915224460314"
+                    # Create and send message
+                    client.api.account.messages.create(
+                        to=to_number,
+                        from_=from_number,
+                        body=text_message_body
+                    )
+                    print("Sending", option.lower(), "text to", to_number, "for", recipient.n_county.t_county, "in", recipient.n_county.n_state.t_state)
+                    text_messages_sent += 1
+                except:
+                    print("ERROR sending", option.lower(), "text to", to_number, "for", recipient.n_county.t_county, "in", recipient.n_county.n_state.t_state)
+                    text_messages_not_sent += 1
 
-                # Create and send message
-                # client.api.account.messages.create(
-                #     to=to_number,
-                #     from_=from_number,
-                #     body=text_message_body
-                # )
-                print(text_message_body)
 
-                text_messages_sent += 1
-
-        else:
+        except:
             self.stdout.write(self.style.ERROR('Please try a different option. "%s" is invalid.' % option))
+
 
         self.stdout.write(self.style.SUCCESS('%s %s text messages were sent successfully.' % (text_messages_sent, option.lower())))
