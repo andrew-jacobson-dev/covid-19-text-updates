@@ -22,13 +22,3 @@ class SummaryByCountyFrequency(models.Model):
     q_total_cases = models.IntegerField()
     q_deaths_change = models.IntegerField()
     q_total_deaths = models.IntegerField()
-
-
-class SummaryByStateFrequency(models.Model):
-    n_state = models.ForeignKey(State, on_delete=models.CASCADE)
-    n_frequency = models.ForeignKey(Frequency, on_delete=models.CASCADE)
-    d_updated = models.DateField()
-    q_cases_change = models.IntegerField()
-    q_total_cases = models.IntegerField()
-    q_deaths_change = models.IntegerField()
-    q_total_deaths = models.IntegerField()

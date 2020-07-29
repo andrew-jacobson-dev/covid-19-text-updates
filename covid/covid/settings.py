@@ -73,7 +73,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'covid.wsgi.application'
-JQUERY_URL = True
+USE_DJANGO_JQUERY = True
 
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
